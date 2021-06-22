@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 namespace Rellac.ObjectVariables
@@ -19,7 +20,13 @@ namespace Rellac.ObjectVariables
 			}
 			set
 			{
+				// Don't bother if it's the exact same value
+				if (EqualityComparer<T>.Default.Equals(value_, value)) return;
+
+				// set new value
 				value_ = value;
+
+				// in editor mode, the event will only fire during play
 #if UNITY_EDITOR || UNITY_EDITOR_LINUX || UNITY_EDITOR_OSX || UNITY_EDITOR_WIN
 				if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
 #endif
